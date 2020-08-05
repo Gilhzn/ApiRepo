@@ -8,16 +8,27 @@ using System.Web.Http.Cors;
 using System.Web.Mvc;
 using WebApi.BL;
 using WebApi.Models;
+using WebApi.Services.IService;
 
 namespace WebApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ValuesController : ApiController
     {
+        private readonly ITestService _testService;
+        private readonly IABCDService _abcdService;
+
+
+        public ValuesController(ITestService testService, IABCDService abcdService) {
+            _testService = testService;
+            _abcdService = abcdService;
+        }
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var a = _testService.GetName();
+            var b = _abcdService.GetName();
+            return new string[] { a, b };
         }
 
         // GET api/values/5
